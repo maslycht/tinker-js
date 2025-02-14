@@ -56,13 +56,12 @@ const CodeEditor: FC<CodeEditorProps> = ({ initialValue, onChange }) => {
           showUnused: false,
           folding: false,
           lineNumbersMinChars: 3,
-          fontSize: 16,
           scrollBeyondLastLine: false,
           automaticLayout: true,
           tabSize: 2,
           renderWhitespace: "all",
         }}
-        height={"300px"}
+        height={"100%"}
       />
     </div>
   );

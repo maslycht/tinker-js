@@ -2,31 +2,27 @@ import { useState } from "react";
 import CodeEditor from "./CodeEditor";
 import Preview from "./Preview.tsx";
 import bundle from "../bundler";
+import Resizable from "./Resizable.tsx";
 
 function CodeCell() {
   const [rawCode, setRawCode] = useState("import 'bulma/css/bulma.css'");
   const [bundledCode, setBundledCode] = useState("");
 
-  const onClick = async () => {
-    const bundledCode = await bundle(rawCode);
-    setBundledCode(bundledCode);
-  };
-
   return (
-    <div>
-      <CodeEditor
-        initialValue={rawCode}
-        onChange={(value) => {
-          setRawCode(value);
-        }}
-      />
+    <Resizable direction={"vertical"}>
+      <div style={{ height: "100%", display: "flex", flexDirection: "row" }}>
+        <Resizable direction={"horizontal"}>
+          <CodeEditor
+            initialValue={rawCode}
+            onChange={(value) => {
+              setRawCode(value);
+            }}
+          />
+        </Resizable>
 
-      <div>
-        <button onClick={onClick}>Submit</button>
+        <Preview code={bundledCode} />
       </div>
-
-      <Preview code={bundledCode} />
-    </div>
+    </Resizable>
   );
 }
 

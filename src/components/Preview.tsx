@@ -1,3 +1,4 @@
+import "./preview.css";
 import { FC, useEffect, useRef } from "react";
 
 interface PreviewProps {
@@ -7,7 +8,7 @@ interface PreviewProps {
 const html = `
     <html lang="en">
     <head>
-      <title>Executed Code</title>
+      <title>Bundled Code</title>
     </head>
     <body>
       <div id="root"></div>
@@ -48,7 +49,11 @@ const Preview: FC<PreviewProps> = ({ code }) => {
     }
   }, [code]);
 
-  return <iframe ref={iframeRef} sandbox={"allow-scripts"} />;
+  return (
+    <div className={"preview-wrapper"}>
+      <iframe ref={iframeRef} sandbox={"allow-scripts"} />
+    </div>
+  );
 };
 
 export default Preview;
