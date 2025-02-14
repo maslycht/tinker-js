@@ -1,4 +1,4 @@
-import { PluginBuild } from "esbuild-wasm";
+import { OnResolveArgs, PluginBuild } from "esbuild-wasm";
 
 export const unpkgPathPlugin = () => {
   return {
@@ -10,7 +10,7 @@ export const unpkgPathPlugin = () => {
       });
 
       // handle relative module paths
-      build.onResolve({ filter: /^\.+\// }, (args: any) => {
+      build.onResolve({ filter: /^\.+\// }, (args: OnResolveArgs) => {
         return {
           namespace: "a",
           path: new URL(args.path, `https://unpkg.com${args.resolveDir}/`).href,
@@ -18,7 +18,7 @@ export const unpkgPathPlugin = () => {
       });
 
       // handle main module path
-      build.onResolve({ filter: /.*/ }, async (args: any) => {
+      build.onResolve({ filter: /.*/ }, async (args: OnResolveArgs) => {
         return {
           namespace: "a",
           path: `https://unpkg.com/${args.path}`,

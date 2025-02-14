@@ -1,4 +1,4 @@
-import { OnLoadResult, PluginBuild } from "esbuild-wasm";
+import { OnLoadArgs, OnLoadResult, PluginBuild } from "esbuild-wasm";
 import axios from "axios";
 import localforage from "localforage";
 
@@ -19,7 +19,7 @@ export const fetchPlugin = (inputCode: string) => {
       });
 
       // return the cached contents for any file path if present
-      build.onLoad({ filter: /.*/ }, async (args: any) => {
+      build.onLoad({ filter: /.*/ }, async (args: OnLoadArgs) => {
         const cachedResult = await cache.getItem<OnLoadResult>(args.path);
 
         if (cachedResult) {
@@ -28,7 +28,7 @@ export const fetchPlugin = (inputCode: string) => {
       });
 
       // fetch contents for CSS file paths
-      build.onLoad({ filter: /\.css$/ }, async (args: any) => {
+      build.onLoad({ filter: /\.css$/ }, async (args: OnLoadArgs) => {
         const { data, request } = await axios.get(args.path);
 
         const escaped = data
@@ -55,7 +55,7 @@ export const fetchPlugin = (inputCode: string) => {
       });
 
       // fetch contents for all the other file paths
-      build.onLoad({ filter: /.*/ }, async (args: any) => {
+      build.onLoad({ filter: /.*/ }, async (args: OnLoadArgs) => {
         const { data, request } = await axios.get(args.path);
 
         const result: OnLoadResult = {
