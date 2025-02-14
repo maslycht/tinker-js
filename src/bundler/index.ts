@@ -4,7 +4,7 @@ import { fetchPlugin } from "./plugins/fetch-plugin";
 
 let esbuildInitialized = false;
 
-const bundle = async (rawCode: string): Promise<string> => {
+const bundle = async (rawCode: string) => {
   if (!esbuildInitialized) {
     try {
       await esbuild.initialize({
@@ -17,18 +17,29 @@ const bundle = async (rawCode: string): Promise<string> => {
     }
   }
 
-  const result = await esbuild.build({
-    entryPoints: ["index.js"],
-    bundle: true,
-    write: false,
-    plugins: [unpkgPathPlugin(), fetchPlugin(rawCode)],
-    define: {
-      "process.env.NODE_ENV": "'production'",
-      global: "window",
-    },
-  });
+  try {
+    const result = await esbuild.build({
+      entryPoints: ["index.js"],
+      bundle: true,
+      write: false,
+      plugins: [unpkgPathPlugin(), fetchPlugin(rawCode)],
+      define: {
+        "process.env.NODE_ENV": "'production'",
+        global: "window",
+      },
+    });
 
-  return result.outputFiles[0].text;
+    return {
+      bundledCode: result.outputFiles[0].text,
+      error: "",
+    };
+  } catch (error) {
+    if (error instanceof Error) {
+      return { bundledCode: "", error: error.message };
+    } else {
+      throw error;
+    }
+  }
 };
 
 export default bundle;

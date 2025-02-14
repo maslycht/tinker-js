@@ -7,11 +7,13 @@ import Resizable from "./Resizable.tsx";
 function CodeCell() {
   const [rawCode, setRawCode] = useState("import 'bulma/css/bulma.css'");
   const [bundledCode, setBundledCode] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const timer = setTimeout(async () => {
       const result = await bundle(rawCode);
-      setBundledCode(result);
+      setBundledCode(result.bundledCode);
+      setError(result.error);
     }, 1000);
 
     return () => {
@@ -31,7 +33,7 @@ function CodeCell() {
           />
         </Resizable>
 
-        <Preview code={bundledCode} />
+        <Preview code={bundledCode} error={error} />
       </div>
     </Resizable>
   );
