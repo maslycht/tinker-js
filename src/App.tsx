@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import * as esbuild from "esbuild-wasm";
+import { unpkgPathPlugin } from "./plugins/unpkg-path-plugin";
+import { fetchPlugin } from "./plugins/fetch-plugin";
 
 function App() {
   const [esbuildInitialized, setEsbuildInitialized] = useState(false);
@@ -9,7 +11,7 @@ function App() {
   const initializeEsbuild = async () => {
     await esbuild.initialize({
       worker: true,
-      wasmURL: "/esbuild.wasm",
+      wasmURL: "https://unpkg.com/esbuild-wasm/esbuild.wasm",
     });
   };
 
@@ -22,12 +24,18 @@ function App() {
   const onClick = async () => {
     if (!esbuildInitialized) return;
 
-    const result = await esbuild.transform(input, {
-      loader: "jsx",
-      target: "es2015",
+    const result = await esbuild.build({
+      entryPoints: ["index.js"],
+      bundle: true,
+      write: false,
+      plugins: [unpkgPathPlugin(), fetchPlugin(input)],
+      define: {
+        "process.env.NODE_ENV": "'production'",
+        global: "window",
+      },
     });
 
-    setCode(result.code);
+    setCode(result.outputFiles[0].text);
   };
 
   return (
