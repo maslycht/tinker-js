@@ -1,3 +1,4 @@
+import "./code-editor.css";
 import Editor, { OnChange } from "@monaco-editor/react";
 import { FC, useState } from "react";
 import prettier from "prettier";
@@ -23,20 +24,27 @@ const CodeEditor: FC<CodeEditorProps> = ({ initialValue, onChange }) => {
 
   const onFormatClick = async () => {
     if (editorValue) {
-      const formattedValue = await prettier.format(editorValue, {
-        parser: "typescript",
-        plugins: [typescript, estree],
-        useTabs: false,
-        semi: true,
-        singleQuote: false,
-      });
+      const formattedValue = (
+        await prettier.format(editorValue, {
+          parser: "typescript",
+          plugins: [typescript, estree],
+          useTabs: false,
+          semi: true,
+          singleQuote: false,
+        })
+      ).replace(/\n$/, "");
       setEditorValue(formattedValue);
     }
   };
 
   return (
-    <div>
-      <button onClick={onFormatClick}>Format</button>
+    <div className={"editor-wrapper"}>
+      <button
+        className={"button button-format is-primary is-small"}
+        onClick={onFormatClick}
+      >
+        Format
+      </button>
       <Editor
         value={editorValue}
         onChange={onEditorUpdate}
