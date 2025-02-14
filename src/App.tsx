@@ -6,7 +6,7 @@ import CodeEditor from "./components/CodeEditor";
 
 function App() {
   const esbuildInitialized = useRef(false);
-  const iframe = useRef<any>();
+  const iframe = useRef<HTMLIFrameElement | null>(null);
   const [input, setInput] = useState("import 'bulma/css/bulma.css'");
 
   useEffect(() => {
@@ -23,7 +23,7 @@ function App() {
   }, []);
 
   const onClick = async () => {
-    if (!esbuildInitialized) return;
+    if (!esbuildInitialized || !iframe.current?.contentWindow) return;
 
     iframe.current.srcdoc = html;
 
