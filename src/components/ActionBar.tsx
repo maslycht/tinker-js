@@ -1,23 +1,24 @@
+import "./action-bar.css";
 import { FC } from "react";
-import { AppDispatch, deleteCell, moveCell } from "../state";
-import { useDispatch } from "react-redux";
+import { deleteCell, moveCell } from "../state";
+import ActionButton from "./ActionButton.tsx";
 
 interface ActionBarProps {
   cellId: string;
 }
 
 const ActionBar: FC<ActionBarProps> = ({ cellId }) => {
-  const dispatch = useDispatch<AppDispatch>();
-
   return (
-    <div>
-      <button onClick={() => dispatch(moveCell({ cellId, direction: "up" }))}>
-        Up
-      </button>
-      <button onClick={() => dispatch(moveCell({ cellId, direction: "down" }))}>
-        Down
-      </button>
-      <button onClick={() => dispatch(deleteCell(cellId))}>Delete</button>
+    <div className={"action-bar"}>
+      <ActionButton
+        type={"moveUp"}
+        action={moveCell({ cellId, direction: "up" })}
+      />
+      <ActionButton
+        type={"moveDown"}
+        action={moveCell({ cellId, direction: "down" })}
+      />
+      <ActionButton type={"delete"} action={deleteCell(cellId)} />
     </div>
   );
 };
