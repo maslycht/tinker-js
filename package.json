@@ -13,6 +13,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.7.2",
     "@monaco-editor/react": "^4.7.0",
+    "@reduxjs/toolkit": "^2.5.1",
     "@uiw/react-md-editor": "^4.0.5",
     "axios": "^1.7.9",
     "bulmaswatch": "^0.8.1",
@@ -23,9 +24,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-redux": "^9.2.0",
-    "react-resizable": "^3.0.5",
-    "redux": "^5.0.1",
-    "redux-thunk": "^3.1.0"
+    "react-resizable": "^3.0.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",

@@ -1,8 +1,11 @@
 import { describe, it, expect } from "vitest";
-import reducer from "./cellsReducer";
-import { ActionType } from "../action-types";
-import { Action } from "../actions";
-import { Cell, CellType } from "../cell";
+import { Cell, CellType } from "../cell.ts";
+import cellsReducer, {
+  deleteCell,
+  insertCellBefore,
+  moveCell,
+  updateCell,
+} from "./cellsSlice.ts";
 
 // Helper function to create a test cell
 const createTestCell = (id: string, type: CellType, content: string): Cell => ({
@@ -13,7 +16,7 @@ const createTestCell = (id: string, type: CellType, content: string): Cell => ({
 
 describe("cellsReducer", () => {
   it("should return initial state when no action is provided", () => {
-    const initialState = reducer(undefined, {} as Action);
+    const initialState = cellsReducer(undefined, {} as never);
     expect(initialState).toEqual({
       loading: false,
       error: null,
@@ -30,12 +33,9 @@ describe("cellsReducer", () => {
       data: { "1": createTestCell("1", "code", "Initial content") },
     };
 
-    const action: Action = {
-      type: ActionType.UPDATE_CELL,
-      payload: { cellId: "1", content: "Updated content" },
-    };
+    const action = updateCell({ cellId: "1", content: "Updated content" });
 
-    const newState = reducer(initialState, action);
+    const newState = cellsReducer(initialState, action);
 
     expect(newState.data["1"].content).toBe("Updated content");
   });
@@ -51,12 +51,9 @@ describe("cellsReducer", () => {
       },
     };
 
-    const action: Action = {
-      type: ActionType.DELETE_CELL,
-      payload: "1",
-    };
+    const action = deleteCell("1");
 
-    const newState = reducer(initialState, action);
+    const newState = cellsReducer(initialState, action);
 
     expect(Object.keys(newState.data).length).toBe(1);
     expect(newState.data).not.toHaveProperty("1");
@@ -76,12 +73,9 @@ describe("cellsReducer", () => {
       },
     };
 
-    const action: Action = {
-      type: ActionType.MOVE_CELL,
-      payload: { cellId: "2", direction: "up" },
-    };
+    const action = moveCell({ cellId: "2", direction: "up" });
 
-    const newState = reducer(initialState, action);
+    const newState = cellsReducer(initialState, action);
 
     expect(newState.order).toEqual(["2", "1", "3"]);
   });
@@ -98,12 +92,9 @@ describe("cellsReducer", () => {
       },
     };
 
-    const action: Action = {
-      type: ActionType.MOVE_CELL,
-      payload: { cellId: "2", direction: "down" },
-    };
+    const action = moveCell({ cellId: "2", direction: "down" });
 
-    const newState = reducer(initialState, action);
+    const newState = cellsReducer(initialState, action);
 
     expect(newState.order).toEqual(["1", "3", "2"]);
   });
@@ -120,12 +111,9 @@ describe("cellsReducer", () => {
       },
     };
 
-    const action: Action = {
-      type: ActionType.MOVE_CELL,
-      payload: { cellId: "1", direction: "up" },
-    };
+    const action = moveCell({ cellId: "1", direction: "up" });
 
-    const newState = reducer(initialState, action);
+    const newState = cellsReducer(initialState, action);
 
     expect(newState).toEqual(initialState);
   });
@@ -142,12 +130,9 @@ describe("cellsReducer", () => {
       },
     };
 
-    const action: Action = {
-      type: ActionType.MOVE_CELL,
-      payload: { cellId: "3", direction: "down" },
-    };
+    const action = moveCell({ cellId: "3", direction: "down" });
 
-    const newState = reducer(initialState, action);
+    const newState = cellsReducer(initialState, action);
 
     expect(newState).toEqual(initialState);
   });
@@ -163,12 +148,9 @@ describe("cellsReducer", () => {
       },
     };
 
-    const action: Action = {
-      type: ActionType.INSERT_CELL_BEFORE,
-      payload: { id: "2", type: "code" },
-    };
+    const action = insertCellBefore({ id: "2", type: "code" });
 
-    const newState = reducer(initialState, action);
+    const newState = cellsReducer(initialState, action);
 
     expect(newState.order.length).toBe(3);
     expect(newState.data[newState.order[1]].type).toBe("code");
@@ -183,12 +165,9 @@ describe("cellsReducer", () => {
       data: {},
     };
 
-    const action: Action = {
-      type: ActionType.INSERT_CELL_BEFORE,
-      payload: { id: null, type: "code" },
-    };
+    const action = insertCellBefore({ id: null, type: "code" });
 
-    const newState = reducer(initialState, action);
+    const newState = cellsReducer(initialState, action);
 
     expect(newState.order.length).toBe(1);
     expect(newState.data[newState.order[0]].type).toBe("code");

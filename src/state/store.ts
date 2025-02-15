@@ -1,5 +1,12 @@
-import { applyMiddleware, createStore } from "redux";
-import { thunk } from "redux-thunk";
-import reducers from "./reducers";
+import { configureStore } from "@reduxjs/toolkit";
+import cellsReducer, { insertCellBefore } from "./slices/cellsSlice";
 
-export const store = createStore(reducers, {}, applyMiddleware(thunk));
+export const store = configureStore({
+  reducer: {
+    cells: cellsReducer,
+  },
+});
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+
