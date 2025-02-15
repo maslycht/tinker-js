@@ -1,17 +1,22 @@
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import CodeEditor from "./CodeEditor";
 import Preview from "./Preview.tsx";
 import bundle from "../bundler";
 import Resizable from "./Resizable.tsx";
+import { Cell, updateCell, useAppDispatch } from "../state";
 
-function CodeCell() {
-  const [rawCode, setRawCode] = useState("import 'bulma/css/bulma.css'");
+interface CodeCellProps {
+  cell: Cell;
+}
+
+const CodeCell: FC<CodeCellProps> = ({ cell }) => {
+  const dispatch = useAppDispatch();
   const [bundledCode, setBundledCode] = useState("");
   const [error, setError] = useState("");
 
   useEffect(() => {
     const timer = setTimeout(async () => {
-      const result = await bundle(rawCode);
+      const result = await bundle(cell.content);
       setBundledCode(result.bundledCode);
       setError(result.error);
     }, 1000);
@@ -19,17 +24,17 @@ function CodeCell() {
     return () => {
       clearTimeout(timer);
     };
-  }, [rawCode]);
+  }, [cell.content]);
 
   return (
     <Resizable direction={"vertical"}>
       <div style={{ height: "100%", display: "flex", flexDirection: "row" }}>
         <Resizable direction={"horizontal"}>
           <CodeEditor
-            initialValue={rawCode}
-            onChange={(value) => {
-              setRawCode(value);
-            }}
+            initialValue={cell.content}
+            onChange={(value) =>
+              dispatch(updateCell({ cellId: cell.id, content: value }))
+            }
           />
         </Resizable>
 
@@ -37,6 +42,6 @@ function CodeCell() {
       </div>
     </Resizable>
   );
-}
+};
 
 export default CodeCell;

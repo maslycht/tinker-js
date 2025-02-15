@@ -30,7 +30,6 @@ const cellsSlice = createSlice({
       state.data[action.payload.cellId].content = action.payload.content;
     },
     deleteCell: (state, action: PayloadAction<string>) => {
-      console.log("DELETE ACTION DISPATCHED");
       delete state.data[action.payload];
       state.order = state.order.filter((id) => id !== action.payload);
     },
@@ -66,6 +65,7 @@ const cellsSlice = createSlice({
   },
 });
 
+export const cellsActions = cellsSlice.actions;
 export const { updateCell, deleteCell, moveCell, insertCellBefore } =
   cellsSlice.actions;
 export default cellsSlice.reducer;
