@@ -1,12 +1,16 @@
 import CodeCell from "./components/CodeCell.tsx";
 import TextEditor from "./components/TextEditor.tsx";
+import { Provider } from "react-redux";
+import { store } from "./state";
 
 function App() {
   return (
-    <div>
-      {/*<CodeCell />*/}
-      <TextEditor />
-    </div>
+    <Provider store={store}>
+      <div>
+        {/*<CodeCell />*/}
+        <TextEditor />
+      </div>
+    </Provider>
   );
 }
 
