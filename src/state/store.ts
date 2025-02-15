@@ -1,6 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import cellsReducer, { insertCellBefore } from "./slices/cellsSlice";
-import { useDispatch } from "react-redux";
+import cellsReducer from "./slices/cellsSlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,5 +9,3 @@ export const store = configureStore({
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
-export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
-

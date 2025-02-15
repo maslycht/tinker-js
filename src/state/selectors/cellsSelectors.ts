@@ -1,5 +1,5 @@
 import { createSelector } from "@reduxjs/toolkit";
-import { RootState } from "../store"; // adjust path accordingly
+import { RootState } from "../store";
 
 export const selectCells = (state: RootState) => state.cells;
 

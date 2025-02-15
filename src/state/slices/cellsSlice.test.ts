@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { Cell, CellType } from "../cell.ts";
 import cellsReducer, {
   deleteCell,
-  insertCellBefore,
+  insertCellAfter,
   moveCell,
   updateCell,
 } from "./cellsSlice.ts";
@@ -137,7 +137,23 @@ describe("cellsReducer", () => {
     expect(newState).toEqual(initialState);
   });
 
-  it("should insert a new cell before an existing cell", () => {
+  it("should insert a new cell if no cells exist", () => {
+    const initialState = {
+      loading: false,
+      error: null,
+      order: [],
+      data: {},
+    };
+
+    const action = insertCellAfter({ id: null, type: "code" });
+
+    const newState = cellsReducer(initialState, action);
+
+    expect(newState.order.length).toBe(1);
+    expect(newState.data[newState.order[0]].type).toBe("code");
+  });
+
+  it("should insert a new cell after an existing cell", () => {
     const initialState = {
       loading: false,
       error: null,
@@ -148,28 +164,32 @@ describe("cellsReducer", () => {
       },
     };
 
-    const action = insertCellBefore({ id: "2", type: "code" });
+    const action = insertCellAfter({ id: "2", type: "code" });
 
     const newState = cellsReducer(initialState, action);
 
     expect(newState.order.length).toBe(3);
-    expect(newState.data[newState.order[1]].type).toBe("code");
-    expect(newState.order[2]).toBe("2");
+    expect(newState.data[newState.order[2]].type).toBe("code");
+    expect(newState.order[2]).not.toBeOneOf(["1", "2"]);
   });
 
-  it("should insert a new cell if no cells exist", () => {
+  it("should insert a new cell at the top if cell id is null", () => {
     const initialState = {
       loading: false,
       error: null,
-      order: [],
-      data: {},
+      order: ["1", "2"],
+      data: {
+        "1": createTestCell("1", "text", ""),
+        "2": createTestCell("2", "text", ""),
+      },
     };
 
-    const action = insertCellBefore({ id: null, type: "code" });
+    const action = insertCellAfter({ id: null, type: "code" });
 
     const newState = cellsReducer(initialState, action);
 
-    expect(newState.order.length).toBe(1);
+    expect(newState.order.length).toBe(3);
     expect(newState.data[newState.order[0]].type).toBe("code");
+    expect(newState.order[0]).not.toBeOneOf(["1", "2"]);
   });
 });

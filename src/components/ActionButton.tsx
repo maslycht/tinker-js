@@ -1,6 +1,6 @@
 import { FC } from "react";
-import { useAppDispatch } from "../state";
 import { cellsActions } from "../state";
+import { useAppDispatch } from "../hooks/useAppDispatch.ts";
 
 interface ActionButtonProps {
   type: "moveUp" | "moveDown" | "delete";

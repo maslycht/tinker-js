@@ -3,7 +3,8 @@ import CodeEditor from "./CodeEditor";
 import Preview from "./Preview.tsx";
 import bundle from "../bundler";
 import Resizable from "./Resizable.tsx";
-import { Cell, updateCell, useAppDispatch } from "../state";
+import { Cell, updateCell } from "../state";
+import { useAppDispatch } from "../hooks/useAppDispatch.ts";
 
 interface CodeCellProps {
   cell: Cell;
@@ -28,7 +29,13 @@ const CodeCell: FC<CodeCellProps> = ({ cell }) => {
 
   return (
     <Resizable direction={"vertical"}>
-      <div style={{ height: "100%", display: "flex", flexDirection: "row" }}>
+      <div
+        style={{
+          height: "calc(100% - 10px)",
+          display: "flex",
+          flexDirection: "row",
+        }}
+      >
         <Resizable direction={"horizontal"}>
           <CodeEditor
             initialValue={cell.content}
