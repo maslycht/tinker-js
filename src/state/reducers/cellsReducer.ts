@@ -31,7 +31,7 @@ const reducer = produce(
       case ActionType.DELETE_CELL: {
         const cellId = action.payload;
         delete state.data[cellId];
-        state.order = state.order.filter((id) => id !== id);
+        state.order = state.order.filter((id) => id !== cellId);
 
         return state;
       }
@@ -74,6 +74,7 @@ const reducer = produce(
         return state;
     }
   },
+  initialState,
 );
 
 const randomId = () => {
