@@ -1,6 +1,25 @@
 {
   "name": "cli",
   "version": "0.1.0",
-  "main": "index.js",
-  "license": "MIT"
+  "description": "CLI for TinkerJS management",
+  "author": "Taras Maslych <maslycht@gmail.com>",
+  "homepage": "https://github.com/maslycht/tinker-js#readme",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maslycht/tinker-js.git"
+  },
+  "scripts": {
+    "start": "tsc --watch --preserveWatchOutput"
+  },
+  "bugs": {
+    "url": "https://github.com/maslycht/tinker-js/issues"
+  },
+  "dependencies": {
+    "commander": "^13.1.0",
+    "local-api": "0.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  }
 }

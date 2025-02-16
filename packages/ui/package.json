@@ -5,6 +5,7 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
+    "start": "vite",
     "dev": "vite",
     "test": "vitest",
     "build": "tsc -b && vite build",

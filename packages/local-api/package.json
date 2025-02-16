@@ -1,6 +1,23 @@
 {
   "name": "local-api",
   "version": "0.1.0",
-  "main": "index.js",
-  "license": "MIT"
+  "description": "API for running TinkerJS locally",
+  "author": "Taras Maslych <maslycht@gmail.com>",
+  "homepage": "https://github.com/maslycht/tinker-js#readme",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maslycht/tinker-js.git"
+  },
+  "scripts": {
+    "start": "tsc --watch --preserveWatchOutput"
+  },
+  "bugs": {
+    "url": "https://github.com/maslycht/tinker-js/issues"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  }
 }
