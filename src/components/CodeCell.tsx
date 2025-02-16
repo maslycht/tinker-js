@@ -16,15 +16,24 @@ const CodeCell = ({ cell }: CodeCellProps) => {
   const dispatch = useAppDispatch();
   const bundle = useTypedSelector((state) => state.bundles[cell.id]);
 
-  useEffect(() => {
-    const timer = setTimeout(async () => {
-      dispatch(bundleCode({ cellId: cell.id, rawCode: cell.content }));
-    }, 1000);
+  useEffect(
+    () => {
+      if (!bundle) {
+        dispatch(bundleCode({ cellId: cell.id, rawCode: cell.content }));
+        return;
+      }
 
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [cell.id, cell.content, dispatch]);
+      const timer = setTimeout(async () => {
+        dispatch(bundleCode({ cellId: cell.id, rawCode: cell.content }));
+      }, 1000);
+
+      return () => {
+        clearTimeout(timer);
+      };
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [cell.id, cell.content, dispatch],
+  );
 
   return (
     <Resizable direction={"vertical"}>
