@@ -7,6 +7,7 @@ import { useAppDispatch } from "../hooks/useAppDispatch.ts";
 import { bundleCode } from "../state/slices/bundlesSlice.ts";
 import { useTypedSelector } from "../hooks/useTypedSelector.ts";
 import Preview from "./Preview.tsx";
+import { selectCumulativeCode } from "../state/selectors/cellsSelectors.ts";
 
 interface CodeCellProps {
   cell: Cell;
@@ -15,16 +16,23 @@ interface CodeCellProps {
 const CodeCell = ({ cell }: CodeCellProps) => {
   const dispatch = useAppDispatch();
   const bundle = useTypedSelector((state) => state.bundles[cell.id]);
+  const cumulativeCode = useTypedSelector((state) =>
+    selectCumulativeCode(state, cell.id),
+  );
 
   useEffect(
     () => {
       if (!bundle) {
-        dispatch(bundleCode({ cellId: cell.id, rawCode: cell.content }));
+        dispatch(
+          bundleCode({ cellId: cell.id, rawCode: cumulativeCode.join("\n") }),
+        );
         return;
       }
 
       const timer = setTimeout(async () => {
-        dispatch(bundleCode({ cellId: cell.id, rawCode: cell.content }));
+        dispatch(
+          bundleCode({ cellId: cell.id, rawCode: cumulativeCode.join("\n") }),
+        );
       }, 1000);
 
       return () => {
@@ -32,7 +40,7 @@ const CodeCell = ({ cell }: CodeCellProps) => {
       };
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [cell.id, cell.content, dispatch],
+    [cell.id, cumulativeCode.join("\n"), dispatch],
   );
 
   return (
