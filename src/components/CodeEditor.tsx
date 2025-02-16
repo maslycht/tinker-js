@@ -17,9 +17,7 @@ const CodeEditor = ({ initialValue, onChange }: CodeEditorProps) => {
 
   const onEditorUpdate: OnChange = (value) => {
     setEditorValue(value);
-    if (value) {
-      onChange(value);
-    }
+    onChange(value || "");
   };
 
   const onFormatClick = async () => {

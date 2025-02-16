@@ -10,9 +10,40 @@ const html = `
     <html lang="en">
     <head>
       <title>Bundled Code</title>
+      <style>
+        body, html {
+          height: 100%;
+          margin: 0;
+        }
+        
+        #root > * {
+          height: 100vh;
+          margin: 0;
+        }
+        
+        .placeholder {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        
+        .placeholder h1 {
+          font-size: 2.5rem;
+          font-weight: 600;
+          color: #f5f5f5;
+          text-transform: capitalize;
+          letter-spacing: 0.5px;
+          margin-bottom: 0.5rem;
+          line-height: 1.2;
+        }
+      </style>
     </head>
     <body>
-      <div id="root"></div>
+      <div id="root">
+        <div class="placeholder">
+          <h1>TinkerJS</h1>
+        </div>
+      </div>
       <script>
         const handleError = (e) => {
             const root = document.getElementById("root");
