@@ -1,5 +1,5 @@
 import "./code-cell.css";
-import { FC, useEffect } from "react";
+import { useEffect } from "react";
 import CodeEditor from "./CodeEditor";
 import Resizable from "./Resizable.tsx";
 import { Cell, updateCell } from "../state";
@@ -12,7 +12,7 @@ interface CodeCellProps {
   cell: Cell;
 }
 
-const CodeCell: FC<CodeCellProps> = ({ cell }) => {
+const CodeCell = ({ cell }: CodeCellProps) => {
   const dispatch = useAppDispatch();
   const bundle = useTypedSelector((state) => state.bundles[cell.id]);
 

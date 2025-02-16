@@ -1,5 +1,5 @@
 import "./cell-list-item.css";
-import { FC, ReactElement } from "react";
+import { ReactElement } from "react";
 import { Cell } from "../state";
 import CodeCell from "./CodeCell.tsx";
 import TextEditor from "./TextEditor.tsx";
@@ -9,7 +9,7 @@ interface CellListItemProps {
   cell: Cell;
 }
 
-const CellListItem: FC<CellListItemProps> = ({ cell }) => {
+const CellListItem = ({ cell }: CellListItemProps) => {
   const child: ReactElement =
     cell.type === "code" ? (
       <>

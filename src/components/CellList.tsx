@@ -1,10 +1,10 @@
-import { FC, Fragment } from "react";
+import { Fragment } from "react";
 import { useTypedSelector } from "../hooks/useTypedSelector.ts";
 import CellListItem from "./CellListItem.tsx";
 import { selectOrderedCells } from "../state/selectors/cellsSelectors.ts";
 import AddCell from "./AddCell.tsx";
 
-const CellList: FC = () => {
+const CellList = () => {
   const cells = useTypedSelector(selectOrderedCells);
 
   const renderedCells = cells.map((cell, index) => {

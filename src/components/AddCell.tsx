@@ -1,5 +1,4 @@
 import "./add-cell.css";
-import { FC } from "react";
 import { insertCellAfter } from "../state";
 import { useAppDispatch } from "../hooks/useAppDispatch.ts";
 
@@ -8,10 +7,7 @@ interface AddCellProps {
   previousCellId: string | null;
 }
 
-const AddCell: FC<AddCellProps> = ({
-  forceVisible = false,
-  previousCellId,
-}) => {
+const AddCell = ({ forceVisible = false, previousCellId }: AddCellProps) => {
   const dispatch = useAppDispatch();
 
   return (

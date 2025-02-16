@@ -1,6 +1,6 @@
 import "./code-editor.css";
 import Editor, { OnChange } from "@monaco-editor/react";
-import { FC, useState } from "react";
+import { useState } from "react";
 import prettier from "prettier";
 import estree from "prettier/plugins/estree";
 import typescript from "prettier/plugins/typescript";
@@ -10,7 +10,7 @@ interface CodeEditorProps {
   onChange: (value: string) => void;
 }
 
-const CodeEditor: FC<CodeEditorProps> = ({ initialValue, onChange }) => {
+const CodeEditor = ({ initialValue, onChange }: CodeEditorProps) => {
   const [editorValue, setEditorValue] = useState<string | undefined>(
     initialValue,
   );

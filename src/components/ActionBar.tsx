@@ -1,5 +1,4 @@
 import "./action-bar.css";
-import { FC } from "react";
 import { deleteCell, moveCell } from "../state";
 import ActionButton from "./ActionButton.tsx";
 
@@ -7,7 +6,7 @@ interface ActionBarProps {
   cellId: string;
 }
 
-const ActionBar: FC<ActionBarProps> = ({ cellId }) => {
+const ActionBar = ({ cellId }: ActionBarProps) => {
   return (
     <div className={"action-bar"}>
       <ActionButton

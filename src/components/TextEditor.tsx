@@ -1,5 +1,5 @@
 import "./text-editor.css";
-import { FC, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import MDEditor from "@uiw/react-md-editor";
 import { Cell, updateCell } from "../state";
 import { useAppDispatch } from "../hooks/useAppDispatch.ts";
@@ -8,7 +8,7 @@ interface TextEditorProps {
   cell: Cell;
 }
 
-const TextEditor: FC<TextEditorProps> = ({ cell }) => {
+const TextEditor = ({ cell }: TextEditorProps) => {
   const dispatch = useAppDispatch();
   const editorRef = useRef<HTMLDivElement | null>(null);
   const [editing, setEditing] = useState(false);

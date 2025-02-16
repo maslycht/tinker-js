@@ -1,4 +1,3 @@
-import { FC } from "react";
 import { cellsActions } from "../state";
 import { useAppDispatch } from "../hooks/useAppDispatch.ts";
 
@@ -7,7 +6,7 @@ interface ActionButtonProps {
   action: ReturnType<(typeof cellsActions)[keyof typeof cellsActions]>;
 }
 
-const ActionButton: FC<ActionButtonProps> = ({ type, action }) => {
+const ActionButton = ({ type, action }: ActionButtonProps) => {
   const dispatch = useAppDispatch();
   let icon = "";
 
