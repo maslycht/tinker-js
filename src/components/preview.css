@@ -6,8 +6,8 @@
 
 .preview-wrapper iframe {
   height: 100%;
-  background-color: white;
   width: 100%;
+  overflow: hidden;
 }
 
 .preview-error {
