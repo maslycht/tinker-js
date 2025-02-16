@@ -29,10 +29,12 @@ const cellsSlice = createSlice({
     ) => {
       state.data[action.payload.cellId].content = action.payload.content;
     },
+
     deleteCell: (state, action: PayloadAction<string>) => {
       delete state.data[action.payload];
       state.order = state.order.filter((id) => id !== action.payload);
     },
+
     moveCell: (
       state,
       action: PayloadAction<{ cellId: string; direction: "up" | "down" }>,
@@ -48,6 +50,7 @@ const cellsSlice = createSlice({
         state.order[index],
       ];
     },
+
     insertCellAfter: (
       state,
       action: PayloadAction<{ id: string | null; type: CellType }>,
@@ -76,4 +79,5 @@ const cellsSlice = createSlice({
 export const cellsActions = cellsSlice.actions;
 export const { updateCell, deleteCell, moveCell, insertCellAfter } =
   cellsSlice.actions;
+
 export default cellsSlice.reducer;

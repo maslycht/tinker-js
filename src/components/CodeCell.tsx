@@ -1,10 +1,12 @@
-import { FC, useEffect, useState } from "react";
+import "./code-cell.css";
+import { FC, useEffect } from "react";
 import CodeEditor from "./CodeEditor";
-import Preview from "./Preview.tsx";
-import bundle from "../bundler";
 import Resizable from "./Resizable.tsx";
 import { Cell, updateCell } from "../state";
 import { useAppDispatch } from "../hooks/useAppDispatch.ts";
+import { bundleCode } from "../state/slices/bundlesSlice.ts";
+import { useTypedSelector } from "../hooks/useTypedSelector.ts";
+import Preview from "./Preview.tsx";
 
 interface CodeCellProps {
   cell: Cell;
@@ -12,20 +14,17 @@ interface CodeCellProps {
 
 const CodeCell: FC<CodeCellProps> = ({ cell }) => {
   const dispatch = useAppDispatch();
-  const [bundledCode, setBundledCode] = useState("");
-  const [error, setError] = useState("");
+  const bundle = useTypedSelector((state) => state.bundles[cell.id]);
 
   useEffect(() => {
     const timer = setTimeout(async () => {
-      const result = await bundle(cell.content);
-      setBundledCode(result.bundledCode);
-      setError(result.error);
+      dispatch(bundleCode({ cellId: cell.id, rawCode: cell.content }));
     }, 1000);
 
     return () => {
       clearTimeout(timer);
     };
-  }, [cell.content]);
+  }, [cell.id, cell.content, dispatch]);
 
   return (
     <Resizable direction={"vertical"}>
@@ -44,8 +43,18 @@ const CodeCell: FC<CodeCellProps> = ({ cell }) => {
             }
           />
         </Resizable>
-
-        <Preview code={bundledCode} error={error} />
+        <div className={"progress-wrapper"}>
+          {!bundle || bundle.loading ? (
+            <div className={"progress-cover"}>
+              <progress
+                className={"progress is-small is-primary"}
+                max={"100"}
+              />
+            </div>
+          ) : (
+            <Preview code={bundle.code} error={bundle.error} />
+          )}
+        </div>
       </div>
     </Resizable>
   );
