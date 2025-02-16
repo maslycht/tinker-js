@@ -23,16 +23,12 @@ const CodeCell = ({ cell }: CodeCellProps) => {
   useEffect(
     () => {
       if (!bundle) {
-        dispatch(
-          bundleCode({ cellId: cell.id, rawCode: cumulativeCode.join("\n") }),
-        );
+        dispatch(bundleCode({ cellId: cell.id, rawCode: cumulativeCode }));
         return;
       }
 
       const timer = setTimeout(async () => {
-        dispatch(
-          bundleCode({ cellId: cell.id, rawCode: cumulativeCode.join("\n") }),
-        );
+        dispatch(bundleCode({ cellId: cell.id, rawCode: cumulativeCode }));
       }, 1000);
 
       return () => {
@@ -40,7 +36,7 @@ const CodeCell = ({ cell }: CodeCellProps) => {
       };
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [cell.id, cumulativeCode.join("\n"), dispatch],
+    [cell.id, cumulativeCode, dispatch],
   );
 
   return (
