@@ -20,7 +20,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.21.2",
-    "frontend": "0.1.0",
+    "ui": "0.1.0",
     "http-proxy-middleware": "^3.0.3"
   },
   "devDependencies": {

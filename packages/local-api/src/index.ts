@@ -22,13 +22,10 @@ export const serve = (
       }),
     );
   } else {
-    // serving built frontend in production
-    const frontendDist = path.join(
-      require.resolve("frontend/package.json"),
-      "../dist",
-    );
+    // serving built UI in production
+    const uiDist = path.join(require.resolve("ui/package.json"), "../dist");
 
-    app.use(express.static(frontendDist));
+    app.use(express.static(uiDist));
   }
 
   return new Promise<void>((resolve, reject) => {
