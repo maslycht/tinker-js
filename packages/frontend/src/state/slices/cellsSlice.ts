@@ -1,5 +1,7 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Cell, CellType } from "../cell";
+import axios from "axios";
+import { RootState } from "../store.ts";
 
 interface CellsState {
   loading: boolean;
@@ -27,7 +29,8 @@ const cellsSlice = createSlice({
       state,
       action: PayloadAction<{ cellId: string; content: string }>,
     ) => {
-      state.data[action.payload.cellId].content = action.payload.content;
+      const { cellId, content } = action.payload;
+      state.data[cellId].content = content;
     },
 
     deleteCell: (state, action: PayloadAction<string>) => {
@@ -74,7 +77,51 @@ const cellsSlice = createSlice({
       }
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchCells.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchCells.fulfilled, (state, action) => {
+        state.loading = false;
+        state.order = action.payload.map((cell) => cell.id); // Populate with data from action.payload
+        state.data = action.payload.reduce(
+          (acc, cell) => {
+            acc[cell.id] = cell;
+            return acc;
+          },
+          {} as CellsState["data"],
+        );
+      })
+      .addCase(fetchCells.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || "Failed to fetch cells";
+      })
+      .addCase(saveCells.rejected, (state, action) => {
+        state.error = action.error.message || "Failed to save cells";
+      });
+  },
 });
+
+export const fetchCells = createAsyncThunk<Cell[], void>(
+  "cells/fetchCells",
+  async () => {
+    const { data } = await axios.get("/cells");
+    return data;
+  },
+);
+
+export const saveCells = createAsyncThunk(
+  "cells/saveCells",
+  async (_, { getState }) => {
+    const { data, order } = (getState() as RootState).cells;
+
+    const cells = order.map((id) => data[id]);
+
+    await axios.post("/cells", { cells });
+  },
+);
 
 export const cellsActions = cellsSlice.actions;
 export const { updateCell, deleteCell, moveCell, insertCellAfter } =
