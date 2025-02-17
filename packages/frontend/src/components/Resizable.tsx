@@ -14,7 +14,8 @@ const Resizable = ({ direction, children }: ResizableProps) => {
 
   useEffect(
     () => {
-      let timer: number;
+      let timer: string | number | NodeJS.Timeout | undefined;
+
       const listener = () => {
         if (timer) {
           clearTimeout(timer);
