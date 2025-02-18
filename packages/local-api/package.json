@@ -1,18 +1,26 @@
 {
-  "name": "local-api",
+  "name": "@tinker-js/local-api",
   "version": "0.1.0",
   "description": "API for running TinkerJS locally",
   "author": "Taras Maslych <maslycht@gmail.com>",
   "homepage": "https://github.com/maslycht/tinker-js#readme",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "main": "dist/index.js",
-  "types": "dist/index.js",
+  "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/maslycht/tinker-js.git"
   },
   "scripts": {
-    "start": "tsc --watch --preserveWatchOutput"
+    "dev": "tsc --watch --preserveWatchOutput",
+    "prepublishOnly": "tsc"
   },
   "bugs": {
     "url": "https://github.com/maslycht/tinker-js/issues"
@@ -20,7 +28,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.21.2",
-    "ui": "0.1.0",
+    "@tinker-js/ui": "0.1.0",
     "http-proxy-middleware": "^3.0.3"
   },
   "devDependencies": {

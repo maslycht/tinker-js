@@ -1,26 +1,40 @@
 {
-  "name": "cli",
+  "name": "tinker-js",
   "version": "0.1.0",
   "description": "CLI for TinkerJS management",
   "author": "Taras Maslych <maslycht@gmail.com>",
   "homepage": "https://github.com/maslycht/tinker-js#readme",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "bin": "dist/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/maslycht/tinker-js.git"
   },
   "scripts": {
-    "start": "tsc --watch --preserveWatchOutput"
+    "dev": "tsc --watch --preserveWatchOutput",
+    "copyReadme": "cp ../../README.md ./README.md || echo 'Failed to copy root README into CLI'",
+    "bundle": "esbuild --define:process.env.NODE_ENV=\\\"production\\\" --platform=node --outfile=dist/index.js --bundle --minify --external:@tinker-js/ui src/index.ts",
+    "prepublishOnly": "yarn copyReadme && yarn bundle",
+    "postpublish": "rm ./README.md || echo 'Failed to remove root README from CLI'"
   },
   "bugs": {
     "url": "https://github.com/maslycht/tinker-js/issues"
   },
   "dependencies": {
-    "commander": "^13.1.0",
-    "local-api": "0.1.0"
+    "@tinker-js/ui": "0.1.0"
   },
   "devDependencies": {
+    "@tinker-js/local-api": "0.1.0",
     "@types/node": "^22.13.4",
+    "commander": "^13.1.0",
+    "esbuild": "^0.25.0",
     "typescript": "^5.7.3"
   }
 }

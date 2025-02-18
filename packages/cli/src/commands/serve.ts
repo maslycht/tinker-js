@@ -1,8 +1,7 @@
 import path from "path";
 import { Command } from "commander";
-import { serve } from "local-api";
-import * as process from "node:process";
-import { log, err } from "../utils/logging";
+import { serve } from "@tinker-js/local-api";
+import { err, log } from "../utils/logging";
 
 interface LocalApiError {
   code: string;

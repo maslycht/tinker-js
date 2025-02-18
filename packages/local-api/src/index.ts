@@ -23,7 +23,10 @@ export const serve = (
     );
   } else {
     // serving built UI in production
-    const uiDist = path.join(require.resolve("ui/package.json"), "../dist");
+    const uiDist = path.join(
+      require.resolve("@tinker-js/ui/package.json"),
+      "../dist",
+    );
 
     app.use(express.static(uiDist));
   }
