@@ -1,6 +1,6 @@
 {
   "name": "tinker-js",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "CLI for TinkerJS management",
   "author": "Taras Maslych <maslycht@gmail.com>",
   "homepage": "https://github.com/maslycht/tinker-js#readme",
@@ -28,10 +28,10 @@
     "url": "https://github.com/maslycht/tinker-js/issues"
   },
   "dependencies": {
-    "@tinker-js/ui": "0.1.0"
+    "@tinker-js/ui": "^1.0.0"
   },
   "devDependencies": {
-    "@tinker-js/local-api": "0.1.0",
+    "@tinker-js/local-api": "^1.0.0",
     "@types/node": "^22.13.4",
     "commander": "^13.1.0",
     "esbuild": "^0.25.0",
